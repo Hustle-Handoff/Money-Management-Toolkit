@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!--
+  The Money Toolkit
+  Copyright (c) 2026 Hustle&Handoff. All Rights Reserved.
+  Personal Use License: for personal / household use only.
+  Not for resale, redistribution, sublicensing, or commercial use.
+  Bundled calculators remain the property of Hustle&Handoff.
+-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Money Toolkit</title>
@@ -96,6 +103,7 @@ iframe{width:100%;max-width:100%;border:0;display:block;background:transparent;
 
 footer{text-align:center;padding:8px 18px 40px;color:var(--ink-faint);font-size:11.5px}
 footer b{color:var(--ink-soft)}
+footer .license{margin-top:10px;font-size:11px;letter-spacing:.05em;color:var(--ink-soft);font-weight:600}
 
 /* ---------- mobile ---------- */
 @media (max-width:680px){
@@ -165,6 +173,7 @@ footer b{color:var(--ink-soft)}
     <footer>
       A bundled collection of independent planning tools. Each calculator is for
       <b>educational use only</b> and is not financial advice.
+      <div class="license">&copy; 2026 Hustle&amp;Handoff &middot; All Rights Reserved &middot; Personal Use License</div>
     </footer>
   </section>
 
@@ -1588,7 +1597,10 @@ header{display:none !important}
     return &quot;$&quot; + n.toLocaleString(&quot;en-US&quot;,{minimumFractionDigits:2,maximumFractionDigits:2});
   }
   function monthly(p){
-    if(p.type===&quot;hourly&quot;){ return (Number(p.rate)||0) * (Number(p.hours)||0) * 52 / 12; }
+    if(p.type===&quot;hourly&quot;){
+      var wk = (Number(p.rate)||0)*(Number(p.hours)||0) + (Number(p.rate2)||0)*(Number(p.hours2)||0);
+      return wk * 52 / 12 + (Number(p.extra)||0);
+    }
     return (Number(p.salary)||0) / 12;
   }
   function esc(s){ return String(s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/</g,&quot;&amp;lt;&quot;).replace(/>/g,&quot;&amp;gt;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;); }
@@ -1610,7 +1622,13 @@ header{display:none !important}
           ? '<div class=&quot;two&quot;>'+
               '<div class=&quot;field&quot;><label>Hourly rate</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num rate&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.5&quot; value=&quot;'+p.rate+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
               '<div class=&quot;field&quot;><label>Hours / week</label><div class=&quot;inwrap&quot;><input class=&quot;num nopre hours&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;1&quot; value=&quot;'+p.hours+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
-            '</div>'
+            '</div>'+
+            '<div style=&quot;font-family:Poppins,sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:16px 0 8px&quot;>Second job &amp;amp; extra income <span style=&quot;font-weight:400;text-transform:none;letter-spacing:0;font-style:italic&quot;>optional</span></div>'+
+            '<div class=&quot;two&quot;>'+
+              '<div class=&quot;field&quot;><label>2nd job rate</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num rate2&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.5&quot; value=&quot;'+(p.rate2||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
+              '<div class=&quot;field&quot;><label>2nd job hours / week</label><div class=&quot;inwrap&quot;><input class=&quot;num nopre hours2&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;1&quot; value=&quot;'+(p.hours2||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
+            '</div>'+
+            '<div class=&quot;field&quot;><label>Additional income <span style=&quot;font-weight:400;color:var(--muted);font-style:italic&quot;>per month &amp;mdash; tips, bonuses, side gig</span></label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num extra&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;10&quot; value=&quot;'+(p.extra||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
           : '<div class=&quot;field&quot;><label>Annual salary</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num salary&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;500&quot; value=&quot;'+p.salary+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
         )+
         '<div class=&quot;ptot&quot;>'+
@@ -1705,6 +1723,9 @@ header{display:none !important}
     else if(t.classList.contains(&quot;rate&quot;)){ partners[i].rate=t.value; }
     else if(t.classList.contains(&quot;hours&quot;)){ partners[i].hours=t.value; }
     else if(t.classList.contains(&quot;salary&quot;)){ partners[i].salary=t.value; }
+    else if(t.classList.contains(&quot;rate2&quot;)){ partners[i].rate2=t.value; }
+    else if(t.classList.contains(&quot;hours2&quot;)){ partners[i].hours2=t.value; }
+    else if(t.classList.contains(&quot;extra&quot;)){ partners[i].extra=t.value; }
     recompute();
   });
   document.getElementById(&quot;partners&quot;).addEventListener(&quot;click&quot;, function(e){
