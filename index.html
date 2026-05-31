@@ -18,7 +18,7 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'DM Sans',system-ui,sans-serif; color:var(--ink); line-height:1.55;
-  -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden; overscroll-behavior:none;
   background:
     radial-gradient(820px 460px at 6% 2%,   rgba(244,216,196,.55), transparent 55%),
     radial-gradient(760px 460px at 96% 14%, rgba(204,143,164,.34), transparent 52%),
@@ -88,8 +88,8 @@ header.hero{position:relative;overflow:hidden;text-align:center;color:#fff;
 .calcbar-title .cb-ic{font-size:.95em}
 .calcbar-spacer{flex:1}
 
-.frame-wrap{position:relative;max-width:1140px;margin:0 auto;padding:14px 14px 30px}
-iframe{width:100%;border:0;display:block;background:transparent;
+.frame-wrap{position:relative;max-width:1140px;margin:0 auto;padding:14px 14px 30px;overflow-x:hidden}
+iframe{width:100%;max-width:100%;border:0;display:block;background:transparent;
   border-radius:16px;overflow:hidden}
 .frame-wrap[data-mode="app"] iframe{height:840px}
 .frame-wrap[data-mode="flow"] iframe{height:880px}
@@ -390,7 +390,7 @@ header{display:none !important}
 .tabwrap{position:static !important;background:transparent !important;border-bottom:none !important;padding:4px 14px 0 !important}
 main{padding-top:8px !important}
 </style>
-<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{min-height:0 !important}</style></head>
+<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{overflow-x:hidden !important} html,body{min-height:0 !important}</style></head>
 <body>
 
 <header>
@@ -1477,7 +1477,7 @@ html,body{background:transparent !important}
 header{display:none !important}
 .wrap{margin-top:0 !important;padding-top:8px !important}
 </style>
-<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{min-height:0 !important}</style></head>
+<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{overflow-x:hidden !important} html,body{min-height:0 !important}</style></head>
 <body>
 <header>
   <span class=&quot;circ c1&quot;></span><span class=&quot;circ c2&quot;></span><span class=&quot;circ c3&quot;></span>
@@ -1889,7 +1889,7 @@ html,body{background:transparent !important}
 .wrap h1, .wrap .sub{display:none !important}
 .wrap{padding-top:8px !important}
 </style>
-<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{min-height:0 !important}</style></head>
+<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{overflow-x:hidden !important} html,body{min-height:0 !important}</style></head>
 <body>
 <div class=&quot;wrap&quot;>
   <div class=&quot;kicker&quot;>Leasing Office Screen</div>
@@ -2165,7 +2165,7 @@ html,body{background:transparent !important}
       <div class="calcbar-title"><span class="cb-ic">&#127802;</span>Bloom Budget</div>
       <span class="calcbar-spacer"></span>
     </div>
-    <div class="frame-wrap" data-mode="app">
+    <div class="frame-wrap" data-mode="flow">
       <iframe id="if-bloom" title="Bloom Budget" srcdoc="<!DOCTYPE html>
 <html lang=&quot;en&quot;>
 <head>
@@ -2411,11 +2411,23 @@ html,body{background:transparent !important}
 </style>
 
 <style id=&quot;cohesion&quot;>
-html,body{background:transparent !important}
+html,body{background:transparent !important;overflow-x:hidden !important;touch-action:pan-y}
 #installBanner,#iosBanner{display:none !important}
-.app-header{border-radius:0 !important}
+.app-header{position:static !important;border-radius:0 !important}
+.tbl-head>*,.tbl-row>*,.tbl-foot>*{min-width:0;overflow:hidden}
+.summary-card,.card{min-width:0}
+@media (max-width:768px){
+  .app-header{display:flex !important;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:12px 14px}
+  .app-header>*{min-width:0;max-width:100%}
+  .header-brand{gap:8px;flex-wrap:wrap}
+  .header-logo{font-size:20px;white-space:nowrap}
+  .header-controls{padding-left:0 !important;flex-wrap:wrap;justify-content:flex-start}
+  .header-select{min-width:0}
+  .donut-wrap{flex-direction:column;align-items:flex-start;gap:14px}
+  .form-2{grid-template-columns:1fr !important}
+}
 </style>
-<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} }</style></head>
+<style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{overflow-x:hidden !important} html,body{min-height:0 !important}</style></head>
 <body>
 
 <!-- WELCOME -->
@@ -4178,15 +4190,17 @@ function dismissIOS() {
 
 
 <script>
-window.addEventListener('load',function(){
-  try{
-    if(typeof startApp==='function'){ startApp(); }
-    else{
-      var w=document.getElementById('welcome'); if(w){ w.classList.add('hidden'); w.style.display='none'; }
-      var a=document.getElementById('app'); if(a){ a.classList.add('visible'); }
-    }
-  }catch(e){}
-});
+(function(){
+  function go(){
+    try{
+      var w=document.getElementById('welcome');
+      if(w){ w.classList.add('hidden'); w.style.display='none'; }
+      var a=document.getElementById('app');
+      if(a){ a.classList.add('visible'); a.style.display='block'; }
+    }catch(e){}
+  }
+  if(document.readyState!=='loading') go(); else document.addEventListener('DOMContentLoaded',go);
+})();
 </script>
 </body>
 </html>"></iframe>
@@ -4196,7 +4210,7 @@ window.addEventListener('load',function(){
 
 <script>
 (function(){
-  var MODE = {"money": "flow", "couples": "flow", "rent": "flow", "bloom": "app"};
+  var MODE = {"money": "flow", "couples": "flow", "rent": "flow", "bloom": "flow"};
   var ids  = Object.keys(MODE);
   var validViews = ids.concat(['home']);
 
@@ -4204,9 +4218,12 @@ window.addEventListener('load',function(){
     if(MODE[id]==='app') return;
     var f=document.getElementById('if-'+id); if(!f) return;
     try{
-      var d=f.contentDocument||f.contentWindow.document; if(!d) return;
-      var h=Math.max(d.body?d.body.scrollHeight:0, d.documentElement?d.documentElement.scrollHeight:0);
-      if(h>80) f.style.height=(h+24)+'px';
+      var d=f.contentDocument||f.contentWindow.document; if(!d||!d.body) return;
+      var h=Math.max(d.body.scrollHeight, d.documentElement?d.documentElement.scrollHeight:0);
+      if(h<=80) return;
+      var target=h+8;
+      var cur=parseInt(f.style.height,10)||0;
+      if(Math.abs(target-cur)>3) f.style.height=target+'px';   // ignore sub-pixel jitter
     }catch(e){}
   }
   function pokeSize(id){
