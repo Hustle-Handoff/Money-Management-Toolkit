@@ -62,6 +62,7 @@ header.hero{position:relative;overflow:hidden;text-align:center;color:#fff;
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 @media(max-width:680px){.grid{grid-template-columns:1fr}}
 .card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:var(--ink);
+  font:inherit;text-align:left;width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;
   background:linear-gradient(160deg,var(--accent-soft),#fff 70%);
   border:1.5px solid var(--line);border-radius:22px;padding:26px 24px 22px;overflow:hidden;
   box-shadow:0 14px 40px -26px var(--shadow-lg);
@@ -84,6 +85,7 @@ header.hero{position:relative;overflow:hidden;text-align:center;color:#fff;
   background:var(--accent);
   color:#fff;padding:13px 18px;box-shadow:0 6px 22px -10px var(--shadow-lg)}
 .back{display:inline-flex;align-items:center;gap:7px;text-decoration:none;cursor:pointer;
+  font-family:inherit;-webkit-appearance:none;appearance:none;
   font-weight:700;font-size:13.5px;color:#fff;
   background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.34);
   border-radius:30px;padding:8px 16px;transition:background .16s,transform .16s}
@@ -140,34 +142,34 @@ footer .license{margin-top:10px;font-size:11px;letter-spacing:.05em;color:var(--
     <div class="home-wrap">
       <p class="home-lead">Choose a calculator</p>
       <div class="grid">
-      <a class="card" href="#money" style="--accent:#E29A72;--accent-soft:#FCEFE6">
+      <button type="button" class="card" data-go="money" style="--accent:#E29A72;--accent-soft:#FCEFE6">
         <span class="card-ic">&#128202;</span>
         <span class="card-kicker">Earnings &amp; Planning</span>
         <span class="card-title">Money Management</span>
         <span class="card-desc">Decode your paycheck, net worth, budget, debt and retirement &mdash; all in one place.</span>
         <span class="card-go">Open <span class="arr">&rarr;</span></span>
-      </a>
-      <a class="card" href="#couples" style="--accent:#CC8FA4;--accent-soft:#F6E6EC">
+      </button>
+      <button type="button" class="card" data-go="couples" style="--accent:#CC8FA4;--accent-soft:#F6E6EC">
         <span class="card-ic">&#128107;</span>
         <span class="card-kicker">Sharing The Load</span>
         <span class="card-title">Couples Split</span>
         <span class="card-desc">Split every shared bill fairly &mdash; proportional to what each of you earns.</span>
         <span class="card-go">Open <span class="arr">&rarr;</span></span>
-      </a>
-      <a class="card" href="#rent" style="--accent:#7BA0CB;--accent-soft:#E6EFFA">
+      </button>
+      <button type="button" class="card" data-go="rent" style="--accent:#7BA0CB;--accent-soft:#E6EFFA">
         <span class="card-ic">&#127968;</span>
         <span class="card-kicker">Will You Qualify?</span>
         <span class="card-title">Rent Check</span>
         <span class="card-desc">Run the income-to-rent test the way a leasing office does, then check your debt load.</span>
         <span class="card-go">Open <span class="arr">&rarr;</span></span>
-      </a>
-      <a class="card" href="#bloom" style="--accent:#9E8DC8;--accent-soft:#EDE9F6">
+      </button>
+      <button type="button" class="card" data-go="bloom" style="--accent:#9E8DC8;--accent-soft:#EDE9F6">
         <span class="card-ic">&#127802;</span>
         <span class="card-kicker">The Full Planner</span>
         <span class="card-title">Bloom Budget</span>
         <span class="card-desc">A complete monthly budgeting app &mdash; income, bills, savings, debt and a calendar.</span>
         <span class="card-go">Open <span class="arr">&rarr;</span></span>
-      </a>
+      </button>
       </div>
     </div>
     <footer>
@@ -180,7 +182,7 @@ footer .license{margin-top:10px;font-size:11px;letter-spacing:.05em;color:var(--
   <!-- ===== CALCULATOR PAGES ===== -->
   <section class="view view-calc" id="view-money" style="--accent:#E29A72;--accent-soft:#FCEFE6">
     <div class="calcbar">
-      <a class="back" href="#home"><span class="arr">&larr;</span> All tools</a>
+      <button type="button" class="back" data-go="home"><span class="arr">&larr;</span> All tools</button>
       <div class="calcbar-title"><span class="cb-ic">&#128202;</span>Money Management</div>
       <span class="calcbar-spacer"></span>
     </div>
@@ -1317,7 +1319,7 @@ calcDayShift(); calcNightShift(); calcNetWorth(); calcBudget(); calcEmergency();
   </section>
   <section class="view view-calc" id="view-couples" style="--accent:#CC8FA4;--accent-soft:#F6E6EC">
     <div class="calcbar">
-      <a class="back" href="#home"><span class="arr">&larr;</span> All tools</a>
+      <button type="button" class="back" data-go="home"><span class="arr">&larr;</span> All tools</button>
       <div class="calcbar-title"><span class="cb-ic">&#128107;</span>Couples Split</div>
       <span class="calcbar-spacer"></span>
     </div>
@@ -1485,6 +1487,45 @@ calcDayShift(); calcNightShift(); calcNetWorth(); calcBudget(); calcEmergency();
 html,body{background:transparent !important}
 header{display:none !important}
 .wrap{margin-top:0 !important;padding-top:8px !important}
+.seg.netfreq{margin-bottom:12px}
+.seg.netfreq button{font-size:11.5px;padding:8px 2px}
+/* on-screen summary, shown inline like an app view */
+#printSummary{display:none;margin-top:16px}
+#printSummary.open{display:block}
+.ps-card{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(166,104,128,.08)}
+.ps-card h1{font-family:Poppins,sans-serif;font-weight:700;font-size:19px;color:var(--ink);margin:0 0 4px}
+.ps-method{font-style:italic;color:var(--muted);font-size:13px;margin:0 0 16px}
+.ps-tbl{width:100%;min-width:0 !important;table-layout:fixed;border-collapse:collapse;margin-bottom:16px;font-family:Poppins,sans-serif}
+.ps-tbl th,.ps-tbl td{border:1px solid var(--line);padding:8px 10px;font-size:13px;text-align:left;word-break:break-word;overflow-wrap:anywhere}
+.ps-tbl th{background:var(--coral-soft);color:var(--coral-deep);font-weight:700;font-size:10.5px;letter-spacing:.4px;text-transform:uppercase}
+.ps-tbl td:not(:first-child),.ps-tbl th:not(:first-child){text-align:right}
+.ps-total td{font-weight:700;background:var(--gold-soft)}
+.ps-foot{font-size:11px;color:var(--muted);margin:0 0 14px}
+.ps-actions{display:flex;gap:10px}
+.ps-actions button{flex:1;font-family:Poppins,sans-serif;font-weight:600;font-size:13px;border-radius:11px;padding:11px;cursor:pointer}
+.ps-print{background:var(--coral);color:#fff;border:none}
+.ps-hide{background:var(--coral-soft);color:var(--coral-deep);border:1.6px solid var(--coral-soft)}
+@media (max-width:560px){
+  .ps-card{padding:15px}
+  .ps-card h1{font-size:16px}
+  .ps-method{font-size:12px}
+  .ps-tbl th,.ps-tbl td{padding:6px 6px;font-size:11px}
+  .ps-actions{flex-direction:column}
+}
+/* summary &quot;view&quot; replaces the form so it always fits */
+.wrap.summarizing > .card:nth-child(1),
+.wrap.summarizing > .card:nth-child(2){display:none !important}
+.wrap.summarizing > .card:nth-child(3){padding:0 !important;border:none !important;background:transparent !important;box-shadow:none !important}
+.wrap.summarizing > .card:nth-child(3) > *:not(#printSummary){display:none !important}
+@media print{
+  body *{visibility:hidden !important}
+  #printSummary, #printSummary *{visibility:visible !important}
+  #printSummary{display:block !important;position:absolute;left:0;top:0;width:100%}
+  .ps-card{border:none;box-shadow:none;padding:0}
+  .ps-actions{display:none !important}
+  .ps-tbl th{background:#f2f2f2 !important;color:#333 !important}
+  .ps-total td{background:#f3f3f3 !important}
+}
 </style>
 <style id=&quot;mobilefix&quot;>@media (max-width:680px){ input,select,textarea{font-size:16px !important} } html,body{overflow-x:hidden !important} html,body{min-height:0 !important}</style></head>
 <body>
@@ -1501,7 +1542,11 @@ header{display:none !important}
   <div class=&quot;card&quot;>
     <div class=&quot;label&quot;>Step 1</div>
     <h2>Your Incomes</h2>
-    <div class=&quot;sub&quot;>Enter each income as an hourly wage or a yearly salary. We&amp;rsquo;ll work out the monthly figures.</div>
+    <div class=&quot;sub&quot;>Choose <strong>gross</strong> (pre-tax) or <strong>take-home</strong> (net) pay, then enter each income.</div>
+    <div class=&quot;seg&quot; id=&quot;basisSeg&quot; style=&quot;max-width:340px;margin:0 0 18px&quot;>
+      <button type=&quot;button&quot; data-basis=&quot;gross&quot; class=&quot;active&quot;>Gross</button>
+      <button type=&quot;button&quot; data-basis=&quot;net&quot;>Net (take-home)</button>
+    </div>
     <div class=&quot;partners&quot; id=&quot;partners&quot;><!-- partner cards injected --></div>
     <div class=&quot;ptot&quot; style=&quot;border-top:none;padding-top:18px;margin-top:6px;&quot;>
       <div class=&quot;method&quot;>
@@ -1563,6 +1608,8 @@ header{display:none !important}
       <div class=&quot;cl&quot;>Fair is not always equal</div>
       <div class=&quot;cb&quot; id=&quot;calloutBody&quot;>When incomes differ, a proportional split keeps both partners feeling the household costs equally &amp;mdash; the higher earner pays more dollars, but the same share of income.</div>
     </div>
+    <button class=&quot;addbtn&quot; type=&quot;button&quot; id=&quot;printBtn&quot; style=&quot;margin-top:14px&quot;>&amp;#128424;&amp;nbsp; View / Print Summary</button>
+    <div id=&quot;printSummary&quot;></div>
   </div>
 </div>
 
@@ -1575,8 +1622,8 @@ header{display:none !important}
 (function(){
   // ----- state -----
   var partners = [
-    { name:&quot;Partner A&quot;, type:&quot;salary&quot;, rate:25, hours:40, salary:60000 },
-    { name:&quot;Partner B&quot;, type:&quot;hourly&quot;, rate:22, hours:40, salary:45000 }
+    { name:&quot;Partner A&quot;, type:&quot;salary&quot;, rate:25, hours:40, salary:60000, net:3900 },
+    { name:&quot;Partner B&quot;, type:&quot;hourly&quot;, rate:22, hours:40, salary:45000, net:2950 }
   ];
   var bills = [
     { name:&quot;Rent / Mortgage&quot;, amount:1800 },
@@ -1586,6 +1633,7 @@ header{display:none !important}
     { name:&quot;Transportation&quot;, amount:300 }
   ];
   var method = &quot;prop&quot;;
+  var incomeBasis = &quot;gross&quot;;
 
   // ----- helpers -----
   function money(n){
@@ -1597,11 +1645,15 @@ header{display:none !important}
     return &quot;$&quot; + n.toLocaleString(&quot;en-US&quot;,{minimumFractionDigits:2,maximumFractionDigits:2});
   }
   function monthly(p){
-    if(p.type===&quot;hourly&quot;){
-      var wk = (Number(p.rate)||0)*(Number(p.hours)||0) + (Number(p.rate2)||0)*(Number(p.hours2)||0);
-      return wk * 52 / 12 + (Number(p.extra)||0);
+    var extra = (Number(p.extra)||0);
+    if(incomeBasis===&quot;net&quot;){
+      var n=Number(p.net)||0, f=p.netFreq||&quot;month&quot;;
+      var nm = f===&quot;week&quot; ? n*52/12 : (f===&quot;biweek&quot; ? n*26/12 : n);
+      return nm + extra;
     }
-    return (Number(p.salary)||0) / 12;
+    var job2 = (Number(p.rate2)||0)*(Number(p.hours2)||0)*52/12;
+    if(p.type===&quot;hourly&quot;){ return (Number(p.rate)||0)*(Number(p.hours)||0)*52/12 + job2 + extra; }
+    return (Number(p.salary)||0)/12 + job2 + extra;
   }
   function esc(s){ return String(s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/</g,&quot;&amp;lt;&quot;).replace(/>/g,&quot;&amp;gt;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;); }
 
@@ -1612,25 +1664,49 @@ header{display:none !important}
     partners.forEach(function(p, i){
       var div = document.createElement(&quot;div&quot;);
       div.className = &quot;partner&quot;;
-      div.innerHTML =
-        '<input class=&quot;pname&quot; value=&quot;'+esc(p.name)+'&quot; data-i=&quot;'+i+'&quot; aria-label=&quot;Partner name&quot;>'+
-        '<div class=&quot;seg&quot; data-i=&quot;'+i+'&quot;>'+
-          '<button data-type=&quot;hourly&quot; class=&quot;'+(p.type===&quot;hourly&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Hourly</button>'+
-          '<button data-type=&quot;salary&quot; class=&quot;'+(p.type===&quot;salary&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Salary</button>'+
-        '</div>'+
-        (p.type===&quot;hourly&quot;
-          ? '<div class=&quot;two&quot;>'+
-              '<div class=&quot;field&quot;><label>Hourly rate</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num rate&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.5&quot; value=&quot;'+p.rate+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
-              '<div class=&quot;field&quot;><label>Hours / week</label><div class=&quot;inwrap&quot;><input class=&quot;num nopre hours&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;1&quot; value=&quot;'+p.hours+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
-            '</div>'+
-            '<div style=&quot;font-family:Poppins,sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:16px 0 8px&quot;>Second job &amp;amp; extra income <span style=&quot;font-weight:400;text-transform:none;letter-spacing:0;font-style:italic&quot;>optional</span></div>'+
+      var job2Block = (p.showJob2
+        ? '<div style=&quot;display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px&quot;><span style=&quot;font-family:Poppins,sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)&quot;>Second job</span><button type=&quot;button&quot; data-remove=&quot;job2&quot; data-i=&quot;'+i+'&quot; style=&quot;border:none;background:none;color:var(--coral);font-family:Poppins,sans-serif;font-weight:600;font-size:11px;cursor:pointer;padding:2px 4px&quot;>Remove</button></div>'+
             '<div class=&quot;two&quot;>'+
               '<div class=&quot;field&quot;><label>2nd job rate</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num rate2&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.5&quot; value=&quot;'+(p.rate2||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
               '<div class=&quot;field&quot;><label>2nd job hours / week</label><div class=&quot;inwrap&quot;><input class=&quot;num nopre hours2&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;1&quot; value=&quot;'+(p.hours2||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
-            '</div>'+
-            '<div class=&quot;field&quot;><label>Additional income <span style=&quot;font-weight:400;color:var(--muted);font-style:italic&quot;>per month &amp;mdash; tips, bonuses, side gig</span></label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num extra&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;10&quot; value=&quot;'+(p.extra||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
-          : '<div class=&quot;field&quot;><label>Annual salary</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num salary&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;500&quot; value=&quot;'+p.salary+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
-        )+
+            '</div>'
+        : '<button type=&quot;button&quot; data-add=&quot;job2&quot; data-i=&quot;'+i+'&quot; style=&quot;margin-top:14px;width:100%;border:1.6px dashed var(--coral);background:var(--coral-soft);color:var(--coral-deep);font-family:Poppins,sans-serif;font-weight:600;font-size:12.5px;padding:10px;border-radius:11px;cursor:pointer&quot;>+ Add a 2nd job</button>');
+      var extraLabel = (incomeBasis===&quot;net&quot;) ? 'side gig, child support' : 'tips, bonuses, side gig';
+      var extraBlock = (p.showExtra
+        ? '<div style=&quot;display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px&quot;><span style=&quot;font-family:Poppins,sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)&quot;>Additional income</span><button type=&quot;button&quot; data-remove=&quot;extra&quot; data-i=&quot;'+i+'&quot; style=&quot;border:none;background:none;color:var(--coral);font-family:Poppins,sans-serif;font-weight:600;font-size:11px;cursor:pointer;padding:2px 4px&quot;>Remove</button></div>'+
+            '<div class=&quot;field&quot;><label>Per month <span style=&quot;font-weight:400;color:var(--muted);font-style:italic&quot;>'+extraLabel+'</span></label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num extra&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;10&quot; value=&quot;'+(p.extra||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
+        : '<button type=&quot;button&quot; data-add=&quot;extra&quot; data-i=&quot;'+i+'&quot; style=&quot;margin-top:10px;width:100%;border:1.6px dashed var(--coral);background:var(--coral-soft);color:var(--coral-deep);font-family:Poppins,sans-serif;font-weight:600;font-size:12.5px;padding:10px;border-radius:11px;cursor:pointer&quot;>+ Add additional income</button>');
+      var inputs;
+      if(incomeBasis===&quot;net&quot;){
+        var nf = p.netFreq||&quot;month&quot;;
+        var nfLabel = nf===&quot;week&quot; ? &quot;Weekly&quot; : (nf===&quot;biweek&quot; ? &quot;Bi-weekly&quot; : &quot;Monthly&quot;);
+        inputs =
+          '<div class=&quot;seg netfreq&quot; data-i=&quot;'+i+'&quot;>'+
+            '<button type=&quot;button&quot; data-freq=&quot;week&quot; class=&quot;'+(nf===&quot;week&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Weekly</button>'+
+            '<button type=&quot;button&quot; data-freq=&quot;biweek&quot; class=&quot;'+(nf===&quot;biweek&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Bi-weekly</button>'+
+            '<button type=&quot;button&quot; data-freq=&quot;month&quot; class=&quot;'+(nf===&quot;month&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Monthly</button>'+
+          '</div>'+
+          '<div class=&quot;field&quot;><label>'+nfLabel+' take-home pay <span style=&quot;font-weight:400;color:var(--muted);font-style:italic&quot;>after taxes</span></label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num net&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;50&quot; value=&quot;'+(p.net||0)+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
+          extraBlock;
+      } else {
+        inputs =
+          '<div class=&quot;seg&quot; data-i=&quot;'+i+'&quot;>'+
+            '<button data-type=&quot;hourly&quot; class=&quot;'+(p.type===&quot;hourly&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Hourly</button>'+
+            '<button data-type=&quot;salary&quot; class=&quot;'+(p.type===&quot;salary&quot;?&quot;active&quot;:&quot;&quot;)+'&quot;>Salary</button>'+
+          '</div>'+
+          (p.type===&quot;hourly&quot;
+            ? '<div class=&quot;two&quot;>'+
+                '<div class=&quot;field&quot;><label>Hourly rate</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num rate&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.5&quot; value=&quot;'+p.rate+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
+                '<div class=&quot;field&quot;><label>Hours / week</label><div class=&quot;inwrap&quot;><input class=&quot;num nopre hours&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;1&quot; value=&quot;'+p.hours+'&quot; data-i=&quot;'+i+'&quot;></div></div>'+
+              '</div>'
+            : '<div class=&quot;field&quot;><label>Annual salary</label><div class=&quot;inwrap&quot;><span class=&quot;pre&quot;>$</span><input class=&quot;num salary&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;500&quot; value=&quot;'+p.salary+'&quot; data-i=&quot;'+i+'&quot;></div></div>'
+          )+
+          job2Block+
+          extraBlock;
+      }
+      div.innerHTML =
+        '<input class=&quot;pname&quot; value=&quot;'+esc(p.name)+'&quot; data-i=&quot;'+i+'&quot; aria-label=&quot;Partner name&quot;>'+
+        inputs+
         '<div class=&quot;ptot&quot;>'+
           '<div class=&quot;row&quot;><span class=&quot;k&quot;>Monthly income</span><span class=&quot;mo&quot; id=&quot;mo'+i+'&quot;>$0</span></div>'+
           '<div class=&quot;row&quot;><span class=&quot;k&quot;>Share of combined</span><span class=&quot;share&quot; id=&quot;sh'+i+'&quot;>0%</span></div>'+
@@ -1726,13 +1802,35 @@ header{display:none !important}
     else if(t.classList.contains(&quot;rate2&quot;)){ partners[i].rate2=t.value; }
     else if(t.classList.contains(&quot;hours2&quot;)){ partners[i].hours2=t.value; }
     else if(t.classList.contains(&quot;extra&quot;)){ partners[i].extra=t.value; }
+    else if(t.classList.contains(&quot;net&quot;)){ partners[i].net=t.value; }
     recompute();
   });
   document.getElementById(&quot;partners&quot;).addEventListener(&quot;click&quot;, function(e){
-    var b=e.target.closest(&quot;button[data-type]&quot;); if(!b) return;
-    var i=+b.parentNode.getAttribute(&quot;data-i&quot;);
-    partners[i].type=b.getAttribute(&quot;data-type&quot;);
-    renderPartners(); recompute();
+    var typeBtn=e.target.closest(&quot;button[data-type]&quot;);
+    if(typeBtn){
+      var ti=+typeBtn.parentNode.getAttribute(&quot;data-i&quot;);
+      partners[ti].type=typeBtn.getAttribute(&quot;data-type&quot;);
+      renderPartners(); recompute(); return;
+    }
+    var freqBtn=e.target.closest(&quot;button[data-freq]&quot;);
+    if(freqBtn){
+      var fi=+freqBtn.parentNode.getAttribute(&quot;data-i&quot;);
+      partners[fi].netFreq=freqBtn.getAttribute(&quot;data-freq&quot;);
+      renderPartners(); recompute(); return;
+    }
+    var addBtn=e.target.closest(&quot;button[data-add]&quot;);
+    if(addBtn){
+      var ai=+addBtn.getAttribute(&quot;data-i&quot;), aw=addBtn.getAttribute(&quot;data-add&quot;);
+      if(aw===&quot;job2&quot;) partners[ai].showJob2=true; else if(aw===&quot;extra&quot;) partners[ai].showExtra=true;
+      renderPartners(); recompute(); return;
+    }
+    var rmBtn=e.target.closest(&quot;button[data-remove]&quot;);
+    if(rmBtn){
+      var ri=+rmBtn.getAttribute(&quot;data-i&quot;), rw=rmBtn.getAttribute(&quot;data-remove&quot;);
+      if(rw===&quot;job2&quot;){ partners[ri].showJob2=false; partners[ri].rate2=0; partners[ri].hours2=0; }
+      else if(rw===&quot;extra&quot;){ partners[ri].showExtra=false; partners[ri].extra=0; }
+      renderPartners(); recompute(); return;
+    }
   });
 
   document.getElementById(&quot;methodSeg&quot;).addEventListener(&quot;click&quot;, function(e){
@@ -1762,6 +1860,52 @@ header{display:none !important}
 
   // ----- init -----
   renderPartners(); renderBills(); paintMethodHint(); recompute();
+
+  var __bseg=document.getElementById(&quot;basisSeg&quot;);
+  if(__bseg) __bseg.addEventListener(&quot;click&quot;, function(e){
+    var b=e.target.closest(&quot;[data-basis]&quot;); if(!b) return;
+    incomeBasis=b.getAttribute(&quot;data-basis&quot;);
+    Array.prototype.forEach.call(this.querySelectorAll(&quot;[data-basis]&quot;), function(x){ x.classList.toggle(&quot;active&quot;, x.getAttribute(&quot;data-basis&quot;)===incomeBasis); });
+    renderPartners(); recompute();
+  });
+
+  function buildSummary(){
+    var mA=monthly(partners[0]), mB=monthly(partners[1]), comb=mA+mB;
+    var shA=comb>0?mA/comb:0.5, shB=comb>0?mB/comb:0.5;
+    var fracA=(method===&quot;equal&quot;)?0.5:shA, fracB=(method===&quot;equal&quot;)?0.5:shB;
+    var nameA=partners[0].name||&quot;Partner A&quot;, nameB=partners[1].name||&quot;Partner B&quot;;
+    var total=0,totA=0,totB=0,rows=&quot;&quot;;
+    bills.forEach(function(b){ var amt=Number(b.amount)||0,pa=amt*fracA,pb=amt*fracB; total+=amt;totA+=pa;totB+=pb;
+      rows+='<tr><td>'+esc(b.name||&quot;\u2014&quot;)+'</td><td>'+money2(amt)+'</td><td>'+money2(pa)+'</td><td>'+money2(pb)+'</td></tr>'; });
+    var h='<div class=&quot;ps-card&quot;>'+
+      '<h1>Couples Bill-Split Summary</h1>'+
+      '<p class=&quot;ps-method&quot;>Split method: '+(method===&quot;equal&quot;?&quot;50 / 50 (equal)&quot;:&quot;Proportional to income&quot;)+' \u00b7 Income: '+(incomeBasis===&quot;net&quot;?&quot;take-home (net)&quot;:&quot;gross&quot;)+'</p>'+
+      '<table class=&quot;ps-tbl&quot;><tr><th>Income</th><th>'+esc(nameA)+'</th><th>'+esc(nameB)+'</th></tr>'+
+      '<tr><td>Monthly income</td><td>'+money(mA)+'</td><td>'+money(mB)+'</td></tr>'+
+      '<tr><td>Share of combined</td><td>'+(comb>0?Math.round(shA*100)+&quot;%&quot;:&quot;\u2014&quot;)+'</td><td>'+(comb>0?Math.round(shB*100)+&quot;%&quot;:&quot;\u2014&quot;)+'</td></tr>'+
+      '<tr><td>Pays toward bills</td><td>'+money(totA)+'</td><td>'+money(totB)+'</td></tr>'+
+      '<tr><td>Left after bills</td><td>'+money(mA-totA)+'</td><td>'+money(mB-totB)+'</td></tr></table>'+
+      '<table class=&quot;ps-tbl&quot;><tr><th>Bill</th><th>Amount</th><th>'+esc(nameA)+'</th><th>'+esc(nameB)+'</th></tr>'+rows+
+      '<tr class=&quot;ps-total&quot;><td>Total</td><td>'+money(total)+'</td><td>'+money(totA)+'</td><td>'+money(totB)+'</td></tr></table>'+
+      '<p class=&quot;ps-foot&quot;>Generated by The Money Toolkit \u00b7 Couples Bill-Split \u00b7 Educational use only.</p>'+
+      '<div class=&quot;ps-actions&quot;><button type=&quot;button&quot; class=&quot;ps-print&quot; id=&quot;psPrint&quot;>Print / Save as PDF</button><button type=&quot;button&quot; class=&quot;ps-hide&quot; id=&quot;psHide&quot;>&amp;#8592; Back</button></div>'+
+      '</div>';
+    document.getElementById(&quot;printSummary&quot;).innerHTML=h;
+  }
+  var __ps=document.getElementById(&quot;printSummary&quot;);
+  var __pb=document.getElementById(&quot;printBtn&quot;);
+  var __wrap=document.querySelector(&quot;.wrap&quot;);
+  function __toTop(){ try{ window.scrollTo(0,0); }catch(e){} try{ parent.postMessage({mtScrollTop:1},&quot;*&quot;); }catch(e){} setTimeout(function(){ try{ parent.postMessage({mtScrollTop:1},&quot;*&quot;); }catch(e){} },120); }
+  if(__pb) __pb.addEventListener(&quot;click&quot;, function(){
+    buildSummary();
+    if(__ps){
+      if(__wrap) __wrap.classList.add(&quot;summarizing&quot;);
+      __ps.classList.add(&quot;open&quot;);
+      var pp=document.getElementById(&quot;psPrint&quot;); if(pp) pp.addEventListener(&quot;click&quot;, function(){ try{ window.print(); }catch(e){} });
+      var ph=document.getElementById(&quot;psHide&quot;); if(ph) ph.addEventListener(&quot;click&quot;, function(){ if(__wrap) __wrap.classList.remove(&quot;summarizing&quot;); __ps.classList.remove(&quot;open&quot;); __toTop(); });
+      __toTop();
+    }
+  });
 })();
 </script>
 </body>
@@ -1771,7 +1915,7 @@ header{display:none !important}
   </section>
   <section class="view view-calc" id="view-rent" style="--accent:#7BA0CB;--accent-soft:#E6EFFA">
     <div class="calcbar">
-      <a class="back" href="#home"><span class="arr">&larr;</span> All tools</a>
+      <button type="button" class="back" data-go="home"><span class="arr">&larr;</span> All tools</button>
       <div class="calcbar-title"><span class="cb-ic">&#127968;</span>Rent Check</div>
       <span class="calcbar-spacer"></span>
     </div>
@@ -2182,7 +2326,7 @@ html,body{background:transparent !important}
   </section>
   <section class="view view-calc" id="view-bloom" style="--accent:#9E8DC8;--accent-soft:#EDE9F6">
     <div class="calcbar">
-      <a class="back" href="#home"><span class="arr">&larr;</span> All tools</a>
+      <button type="button" class="back" data-go="home"><span class="arr">&larr;</span> All tools</button>
       <div class="calcbar-title"><span class="cb-ic">&#127802;</span>Bloom Budget</div>
       <span class="calcbar-spacer"></span>
     </div>
@@ -2190,6 +2334,14 @@ html,body{background:transparent !important}
       <iframe id="if-bloom" title="Bloom Budget" srcdoc="<!DOCTYPE html>
 <html lang=&quot;en&quot;>
 <head>
+<script>
+var __LS=(function(){
+  try{var k='__lstest__';window.localStorage.setItem(k,'1');window.localStorage.removeItem(k);return window.localStorage;}
+  catch(e){var s={};return {getItem:function(k){return Object.prototype.hasOwnProperty.call(s,k)?s[k]:null;},setItem:function(k,v){s[k]=String(v);},removeItem:function(k){delete s[k];},clear:function(){s={};},key:function(i){return Object.keys(s)[i]||null;},get length(){return Object.keys(s).length;}};}
+})();
+try{window.__LS=__LS;}catch(e){}
+</script>
+
 <meta charset=&quot;UTF-8&quot;/>
 <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;/>
 <title>Bloom Budget Planner ❖</title>
@@ -2437,6 +2589,10 @@ html,body{background:transparent !important;overflow-x:hidden !important;touch-a
 .app-header{position:static !important;border-radius:0 !important}
 .tbl-head>*,.tbl-row>*,.tbl-foot>*{min-width:0;overflow:hidden}
 .summary-card,.card{min-width:0}
+/* a day with a bill due turns hot pink */
+.cal-day.has-bill{border-color:#FF4FA3 !important;background:#FFE6F2 !important;box-shadow:0 2px 12px rgba(255,79,163,.22) !important}
+.cal-day.has-bill .cal-day-num{color:#E0327E !important}
+.cal-day.has-bill.today{background:#FFD9EC !important}
 @media (max-width:768px){
   .app-header{display:flex !important;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:12px 14px}
   .app-header>*{min-width:0;max-width:100%}
@@ -2919,7 +3075,7 @@ let ALL_CATS = getAllCats();
 const MONTHS       = [&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;];
 const NOW          = new Date();
 
-// ── State (loaded from localStorage) ─────────────────────────
+// ── State (loaded from __LS) ─────────────────────────
 let state = {
   transactions:  [],
   budgets:       {},
@@ -2935,7 +3091,7 @@ let state = {
 
 function loadState() {
   try {
-    const s = localStorage.getItem(&quot;bloom_mobile_v3&quot;);
+    const s = __LS.getItem(&quot;bloom_mobile_v3&quot;);
     if (s) { Object.assign(state, JSON.parse(s)); if(!state.calEntries) state.calEntries={}; if(state.calViewMonth===undefined) state.calViewMonth=NOW.getMonth(); if(state.calViewYear===undefined) state.calViewYear=NOW.getFullYear();
       if(state.catNames){
         if(state.catNames.income)   INCOME_CATS  = [...state.catNames.income];
@@ -2952,7 +3108,7 @@ let saveTimer;
 function save() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    try { localStorage.setItem(&quot;bloom_mobile_v3&quot;, JSON.stringify(state)); } catch(e) {}
+    try { __LS.setItem(&quot;bloom_mobile_v3&quot;, JSON.stringify(state)); } catch(e) {}
     flashSaved();
   }, 300);
 }
@@ -3853,12 +4009,13 @@ function renderCalendar() {
     const customEntries=state.calEntries[dateStr]||[];
     const bills=billDays[day]||[];
     const hasItems=customEntries.length>0||bills.length>0;
+    const hasBill=bills.length>0||customEntries.some(e=>e.type===&quot;bill&quot;);
 
     const billHtml=bills.slice(0,2).map(b=>`<div class=&quot;cal-entry cal-entry-bill&quot; title=&quot;${b}&quot;>${b}</div>`).join(&quot;&quot;);
     const noteHtml=customEntries.slice(0,2).map(e=>`<div class=&quot;cal-entry ${e.type===&quot;bill&quot;?&quot;cal-entry-bill&quot;:&quot;cal-entry-note&quot;}&quot; title=&quot;${e.text}&quot;>${e.text}</div>`).join(&quot;&quot;);
     const moreCount=bills.length+customEntries.length-4;
 
-    cells+=`<div class=&quot;cal-day${isToday?&quot; today&quot;:&quot;&quot;}${hasItems?&quot; has-items&quot;:&quot;&quot;}&quot; onclick=&quot;openCalModal('${dateStr}')&quot;>
+    cells+=`<div class=&quot;cal-day${isToday?&quot; today&quot;:&quot;&quot;}${hasItems?&quot; has-items&quot;:&quot;&quot;}${hasBill?&quot; has-bill&quot;:&quot;&quot;}&quot; onclick=&quot;openCalModal('${dateStr}')&quot;>
       <div class=&quot;cal-day-num&quot;>${day}</div>
       ${billHtml}${noteHtml}
       ${moreCount>0?`<div style=&quot;font-size:9px;color:var(--plum-lt);margin-top:2px&quot;>+${moreCount} more</div>`:&quot;&quot;}
@@ -4176,7 +4333,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
   const b = document.getElementById('installBanner');
-  if (b &amp;&amp; !localStorage.getItem('install_dismissed')) b.style.display = 'flex';
+  if (b &amp;&amp; !__LS.getItem('install_dismissed')) b.style.display = 'flex';
 });
 
 function installApp() {
@@ -4190,7 +4347,7 @@ function installApp() {
 
 function dismissInstall() {
   document.getElementById('installBanner').style.display = 'none';
-  localStorage.setItem('install_dismissed', '1');
+  __LS.setItem('install_dismissed', '1');
 }
 
 // ── iOS Safari install prompt ─────────────────────────────────
@@ -4199,13 +4356,13 @@ const isStandalone = window.navigator.standalone;
 if (isIOS &amp;&amp; !isStandalone) {
   window.addEventListener('load', () => {
     const b = document.getElementById('iosBanner');
-    if (b &amp;&amp; !localStorage.getItem('ios_dismissed')) b.style.display = 'flex';
+    if (b &amp;&amp; !__LS.getItem('ios_dismissed')) b.style.display = 'flex';
   });
 }
 
 function dismissIOS() {
   document.getElementById('iosBanner').style.display = 'none';
-  localStorage.setItem('ios_dismissed', '1');
+  __LS.setItem('ios_dismissed', '1');
 }
 </script>
 
@@ -4252,21 +4409,34 @@ function dismissIOS() {
     [60,250,700,1500,2800].forEach(function(t){ setTimeout(function(){autosize(id);},t); });
   }
 
-  function route(){
-    var id=(location.hash||'#home').slice(1);
+  function show(id){
     if(validViews.indexOf(id)===-1) id='home';
     document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
     var view=document.getElementById('view-'+id);
     if(view) view.classList.add('active');
-    if(id!=='home') pokeSize(id);     // measure once the page is visible
-    window.scrollTo({top:0,behavior:'auto'});
-    document.title = (id==='home') ? 'The Money Toolkit'
-                                   : (document.querySelector('#view-'+id+' .calcbar-title')||{}).textContent + ' \u2014 Money Toolkit';
+    if(id!=='home') pokeSize(id);
+    try{ window.scrollTo(0,0); }catch(e){}
   }
 
-  window.addEventListener('hashchange', route);
+  // pure JS navigation via buttons — no anchors/hash, so the preview sandbox can't intercept it
+  document.addEventListener('click', function(e){
+    var b=e.target.closest('[data-go]'); if(!b) return;
+    e.preventDefault();
+    show(b.getAttribute('data-go'));
+  });
+
   window.addEventListener('resize', function(){
     var active=document.querySelector('.view-calc.active'); if(active) autosize(active.id.replace('view-',''));
+  });
+
+  // let an embedded calculator ask the shell to scroll to the top (e.g. when a sub-view opens)
+  window.addEventListener('message', function(e){
+    var d=e.data||{};
+    if(d && d.mtScrollTop){
+      try{ window.scrollTo(0,0); }catch(_e){}
+      var active=document.querySelector('.view-calc.active');
+      if(active) autosize(active.id.replace('view-',''));
+    }
   });
 
   // keep frames sized as their content settles (e.g. dynamic rows, fonts)
@@ -4288,7 +4458,7 @@ function dismissIOS() {
     });
   });
 
-  route();
+  show('home');
 })();
 </script>
 </body>
